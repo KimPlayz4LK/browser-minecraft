@@ -8,7 +8,7 @@
 <style>
 *{outline:none;transition:.3s;}
 body{background-color:black;color:white;font-family:arial;margin:0;overflow:hidden;}
-#connectionMenu{background-color:#333;border:3px solid white;border-radius:10px;padding:10px;width:600px;margin:0;position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);z-index:10;}
+#connectionMenu{background-color:#333;border:3px solid white;border-radius:10px;padding:10px;width:600px;margin:0;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;}
 #connectionMenu label{margin-left:20px;float:left;}
 #connectionMenu input{margin-right:20px;float:right;}
 input,button{width:250px;background-color:#666;color:white;font-family:arial;border-radius:3px;border:white solid 2px;padding:4px;}
@@ -19,13 +19,15 @@ input::placeholder{color:#bbb;}
 #game{width:100%;height:100%;margin:0;border:none;position:absolute;top:0px;left:0px;}
 #gameScreen{width:100%;height:100%;border:none;margin:0;overflow:hidden;}
 #botUsername{position:absolute;top:5px;right:5px;}
-#gameChat{width:200px;max-height:100px;overflow:hidden;position:relative;bottom:0px;left:0px;}
-#gameChat ul{position:absolute;bottom:30px;left:0px;width:100%;margin:0px;}
-#gameChat ul li{list-style-type:none;white-space:normal;overflow-wrap:break-word;background-color:rbga(0,0,0,0.5);}
+#botStats{position:absolute;top:5px;left:5px;}
+#gameChat{width:400px;height:200px;max-height:150px;overflow:hidden;position:absolute;bottom:0px;left:0px;z-index:100;}
+#gameChat ul{position:absolute;bottom:27px;left:0px;width:100%;margin:0px;padding:0px;}
+#gameChat ul li{list-style-type:none;white-space:normal;overflow-wrap:break-word;background-color:black;}
 #gameChat ul li.joinleave{color:yellow;}
 #gameChat ul li.chat{color:white;}
 #gameChat ul li.whisper{color:gray;font-style:italic;}
-#gameChatInput{position:relative;bottom:0px;left:0px;width:100%;border:none;border-radius:0px;}
+#gameChatInput{position:absolute;bottom:0px;left:0px;width:100%;border:none;border-radius:0px;}
+fieldset{border:2px white solid;border-radius:10px;}
 </style>
 </head>
 <body>
@@ -36,14 +38,24 @@ input::placeholder{color:#bbb;}
 <label for="username">Username: </label><input type="text" placeholder="Example: Herobrine" id="username" maxlength="16"><br><br>
 <label for="serverip">Server IP: </label><input type="url" placeholder="Example: afunminecraftserver.net" id="serverip"><br><br>
 <label for="serverport">Server port (optional): </label><input type="number" placeholder="25565" value="25565" id="serverport" max="65535" min="1"><br><br>
+<label for="firstPersonCheck">First person view? </label><input type="checkbox" id="firstPersonCheck" checked><br><br>
 <button id="connectButton">Connect!</button>
 <h4 id="errorText" style="color:#a00">-</h4>
+<fieldset><legend>Controls</legend><ul style="text-align:left;">
+<li>IF YOU CHOOSE FIRST PERSON AND YOU CAN'T CONTROL, JUST CLICK ON YOUR USERNAME ON THE TOP RIGHT CORNER.</li>
+<li>Movement: WASD</li>
+<li>Turn head / Look around: Arrow keys</li>
+<li>Jump: Spacebar</li>
+<li>Sneak: Shift</li>
+<li>Sprint: Control (toggled)</li>
+</ul></fieldset>
 </center>
 </div>
 <div id="game" style="display:none;">
 <h3 id="botUsername">-</h3>
-<iframe src="" id="gameScreen"></iframe>
+<h3 id="botStats">-</h3>
 <div id="gameChat"><ul></ul><input type="text" maxlength="100" id="gameChatInput" placeholder="Type a message..."></div>
+<iframe src="" id="gameScreen"></iframe>
 </div>
 </body>
 </html>
