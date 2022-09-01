@@ -96,7 +96,7 @@ html.botStats.innerHTML=`${data.health.toFixed(2)} HP<br>X: ${data.xPos.toFixed(
 });
 var pressedKeys=[];
 document.addEventListener("keydown",(e)=>{
-if(e.keyCode==17||e.ctrlKey)e.preventDefault();
+//if(e.keyCode==17||e.ctrlKey)e.preventDefault();
 var key=e.key.toLowerCase();
 if(!pressedKeys.includes(key)){
 if(!key.startsWith("arrow"))pressedKeys.push(key);
