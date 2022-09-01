@@ -1,4 +1,4 @@
-const socket=io(`https://browser-minecraft.herokuapp.com`,{transports:['websocket'],allowUpgrades:false});
+const socket=io(`/`,{transports:['websocket'],allowUpgrades:false});
 var isConnected=false;
 var html={};
 var controlsDisabled=true;
