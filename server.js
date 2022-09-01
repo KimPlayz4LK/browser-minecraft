@@ -78,7 +78,7 @@ this.bot.on("error",(error)=>{minecraftError(this.socket,error);});
 this.bot.once("spawn",async()=>{
 
 await mineflayerViewer(this.bot,{port:this.viewerPort,firstPerson:this.isFirstPerson});
-sendConnectionInfo(this.socket,{url:`http://browser-minecraft.herokuapp.com:${this.viewerPort}`,username:this.bot.username,server:`${this.serverip}:${this.serverport}`,health:this.bot.health,xPos:this.bot.entity.position.x,yPos:this.bot.entity.position.y,zPos:this.bot.entity.position.z});
+sendConnectionInfo(this.socket,{url:`https://browser-minecraft.herokuapp.com:${this.viewerPort}`,username:this.bot.username,server:`${this.serverip}:${this.serverport}`,health:this.bot.health,xPos:this.bot.entity.position.x,yPos:this.bot.entity.position.y,zPos:this.bot.entity.position.z});
 });
 }
 
