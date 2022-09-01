@@ -72,6 +72,7 @@ this.bot.on("chat",(username,message)=>{minecraftChatMessage(this.socket,usernam
 this.bot.on("health",()=>{minecraftSendPlayerStats(this.socket,{health:this.bot.health,xPos:this.bot.entity.position.x,yPos:this.bot.entity.position.y,zPos:this.bot.entity.position.z});});
 this.bot.on("move",()=>{minecraftSendPlayerStats(this.socket,{health:this.bot.health,xPos:this.bot.entity.position.x,yPos:this.bot.entity.position.y,zPos:this.bot.entity.position.z});});
 this.bot.on("whisper",(username,message)=>{minecraftWhisperMessage(this.socket,username,message);});
+this.bot.on("messagestr",(message,type)=>{minecraftPlainMessage(this.socket,message);});
 this.bot.on("playerJoined",(player)=>{minecraftPlayerJoined(this.socket,player);});
 this.bot.on("playerLeft",(player)=>{minecraftPlayerLeft(this.socket,player);});
 this.bot.on("error",(error)=>{minecraftError(this.socket,error);});
@@ -92,6 +93,7 @@ if(username.length>16)return username.substring(0,16);
 if(username.length<3)return `${ug.generateUsername("",12)}${random(0,9999)}`;
 }
 function minecraftChatMessage(socket,username,message){socket.emit("minecraftChatMessage",{username:username,message:message});}
+function minecraftPlainMessage(socket,message){socket.emit("minecraftPlainMessage",{message:message});}
 function minecraftWhisperMessage(socket,username,message){socket.emit("minecraftWhisperMessage",{username:username,message:message});}
 function minecraftPlayerJoined(socket,player){socket.emit("minecraftPlayerJoined",player);}
 function minecraftPlayerLeft(socket,player){socket.emit("minecraftPlayerLeft",player);}

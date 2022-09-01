@@ -67,11 +67,12 @@ if(type=="join"){html.gameChat.appendChild(newLi(`${username} joined the game`,"
 if(type=="leave"){html.gameChat.appendChild(newLi(`${username} left the game`,"joinleave"));}
 if(type=="chat"){html.gameChat.appendChild(newLi(`<${username}> ${message}`,"chat"));}
 if(type=="whisper"){html.gameChat.appendChild(newLi(`<${username}> ${message}`,"whisper"));}
+if(type=="plain"){html.gameChat.appendChild(newLi(`${message}`));}
 }
 function newLi(text,className){
 var li=document.createElement("li");
 li.innerText=text;
-li.classList.add(className);
+if(className)li.classList.add(className);
 return li;
 }
 html.gameChatInput.addEventListener(`keyup`,e=>{
@@ -85,10 +86,11 @@ html.gameChatInput.value="";
 html.gameChatInput.blur();
 }
 }
-socket.on(`minecraftChatMessage`,(data)=>{addChatMessage("chat",data.username,data.message);});
-socket.on(`minecraftWhisperMessage`,(data)=>{addChatMessage("whisper",data.username,data.message);});
-socket.on(`minecraftPlayerJoined`,(data)=>{addChatMessage("join",data.username);});
-socket.on(`minecraftPlayerLeft`,(data)=>{addChatMessage("leave",data.username);});
+socket.on(`minecraftPlainMessage`,(data)=>{addChatMessage("plain",null,data.message);});
+//socket.on(`minecraftChatMessage`,(data)=>{addChatMessage("chat",data.username,data.message);});
+//socket.on(`minecraftWhisperMessage`,(data)=>{addChatMessage("whisper",data.username,data.message);});
+//socket.on(`minecraftPlayerJoined`,(data)=>{addChatMessage("join",data.username);});
+//socket.on(`minecraftPlayerLeft`,(data)=>{addChatMessage("leave",data.username);});
 socket.on(`minecraftPlayerStats`,(data)=>{
 html.botStats.innerHTML=`${data.health.toFixed(2)} HP<br>X: ${data.xPos.toFixed(2)} Y: ${data.yPos.toFixed(2)} Z: ${data.zPos.toFixed(2)}`;
 });
