@@ -5,7 +5,7 @@ const io=require(`socket.io`)(http,{allowUpgrades:false});
 const mineflayer=require("mineflayer");
 const{mineflayer:mineflayerViewer}=require("prismarine-viewer");
 require(`dotenv`);
-const port=8080;
+const port=process.env.PORT||3000;
 const fs=require(`fs`);
 var bots={};
 const lookModifier=0.1;
