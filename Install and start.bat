@@ -1,8 +1,8 @@
 @echo off
 echo Installing modules...
-npm install
+call npm install
 echo Press any key to start the server.
 pause
 echo Starting server for localhost...
-node localhostServer.js
+call node localhostServer.js
 pause
