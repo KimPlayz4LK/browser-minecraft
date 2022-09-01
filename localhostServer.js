@@ -5,14 +5,14 @@ const io=require(`socket.io`)(http,{allowUpgrades:false});
 const mineflayer=require("mineflayer");
 const{mineflayer:mineflayerViewer}=require("prismarine-viewer");
 require(`dotenv`);
-const port=8080;
+const port=80;
 const fs=require(`fs`);
 var bots={};
 const lookModifier=0.1;
 
 io.on(`connection`,async socket=>{
 socket.on(`connectMinecraft`,async data=>{
-bots[socket.id]=new MinecraftBot(data.username,data.serverip,data.serverport,socket,data.firstPerson);
+bots[socket.id]=new MinecraftBot(data.username,data.serverip,data.serverport,socket,data.firstPerson,data.version);
 });
 socket.on(`sendChatMessage`,async data=>{
 if(bots[socket.id])if(bots[socket.id].bot)bots[socket.id].bot.chat(data);
@@ -59,14 +59,15 @@ res.sendFile(__dirname+`/${req.originalUrl}`);
 });
 http.listen(port,async ()=>{console.log(`Web server started at port ${port}`);});
 
-function MinecraftBot(username,serverip,serverport,socket,firstPerson){
+function MinecraftBot(username,serverip,serverport,socket,firstPerson,version){
 this.username=checkUsername(username);
 this.serverip=serverip;
 this.serverport=serverport||25565;
 this.socket=socket;
 this.viewerPort=random(10000,65535);
+this.version=version||false;
 this.isFirstPerson=firstPerson==true||false?firstPerson:false;
-this.bot=mineflayer.createBot({host:this.serverip,username:this.username,port:this.serverport});
+this.bot=mineflayer.createBot({host:this.serverip,username:this.username,port:this.serverport,version:this.version});
 this.bot.on("kicked",(reason)=>{minecraftKicked(this.socket,reason);});
 this.bot.on("chat",(username,message)=>{minecraftChatMessage(this.socket,username,message);});
 this.bot.on("health",()=>{minecraftSendPlayerStats(this.socket,{health:this.bot.health,xPos:this.bot.entity.position.x,yPos:this.bot.entity.position.y,zPos:this.bot.entity.position.z});});

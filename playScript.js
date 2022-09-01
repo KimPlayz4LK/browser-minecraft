@@ -9,6 +9,7 @@ html.connectbutton=document.querySelector("#connectButton");
 html.errortext=document.querySelector("#errorText");
 html.screen=document.querySelector("#gameScreen");
 html.botUsername=document.querySelector("#botUsername");
+html.serverversion=document.querySelector("#serverversion");
 html.connectbutton.addEventListener("click",connectMinecraft);
 html.gameChat=document.querySelector(`#gameChat ul`);
 html.gameChatInput=document.querySelector(`#gameChatInput`);
@@ -20,8 +21,9 @@ html.errortext.innerText="Sent a Minecraft server connection request, waiting fo
 var username=html.username.value.replace(/[^0-9a-zA-Z_]/g,"");
 var serverip=html.serverip.value.replace(/[^0-9a-zA-Z_\-.]/g,"");
 var serverport=html.serverport.value;
+var serverversion=html.serverversion.value;
 var firstPerson=html.firstPerson.checked;
-socket.emit("connectMinecraft",{username:username,serverip:serverip,serverport:serverport,firstPerson:firstPerson});
+socket.emit("connectMinecraft",{username:username,serverip:serverip,serverport:serverport,firstPerson:firstPerson,version:serverversion});
 }else{
 html.errortext.innerText="Not connected to the server.";
 }}
@@ -68,6 +70,7 @@ if(type=="leave"){html.gameChat.appendChild(newLi(`${username} left the game`,"j
 if(type=="chat"){html.gameChat.appendChild(newLi(`<${username}> ${message}`,"chat"));}
 if(type=="whisper"){html.gameChat.appendChild(newLi(`<${username}> ${message}`,"whisper"));}
 if(type=="plain"){html.gameChat.appendChild(newLi(`${message}`));}
+if(html.gameChat.querySelector("li"))html.gameChat.querySelectorAll("li")[html.gameChat.querySelectorAll("li").length-1].scrollIntoView(false);
 }
 function newLi(text,className){
 var li=document.createElement("li");
@@ -75,9 +78,7 @@ li.innerText=text;
 if(className)li.classList.add(className);
 return li;
 }
-html.gameChatInput.addEventListener(`keyup`,e=>{
-if(e.keyCode==13){sendChatMessage();}
-});
+html.gameChatInput.addEventListener(`keyup`,e=>{if(e.keyCode==13){sendChatMessage();}});
 function sendChatMessage(){
 if(isConnected){
 var message=html.gameChatInput.value;
@@ -96,11 +97,11 @@ html.botStats.innerHTML=`${data.health.toFixed(2)} HP<br>X: ${data.xPos.toFixed(
 });
 var pressedKeys=[];
 document.addEventListener("keydown",(e)=>{
+if(!controlsDisabled){
 //if(e.keyCode==17||e.ctrlKey)e.preventDefault();
 var key=e.key.toLowerCase();
 if(!pressedKeys.includes(key)){
 if(!key.startsWith("arrow"))pressedKeys.push(key);
-if(!controlsDisabled){
 if(key=="/"){html.gameChatInput.focus();}
 if(key=="t"){html.gameChatInput.focus();html.gameChatInput.value="";}
 if(key=="w"){socket.emit("minecraftAction","w");}
@@ -117,6 +118,7 @@ if(key=="arrowright"){socket.emit("minecraftAction","lookright");}
 }}
 });
 document.addEventListener("keyup",(e)=>{
+if(!controlsDisabled){
 var key=e.key.toLowerCase();
 var index=pressedKeys.indexOf(key);
 if(index!==-1){pressedKeys.splice(index,1);}
@@ -127,6 +129,6 @@ if(key=="d"){socket.emit("minecraftStopAction","d");}
 if(key==" "){socket.emit("minecraftStopAction","jump");}
 if(key=="shift"){socket.emit("minecraftStopAction","sneak");}
 //if(key=="control"){socket.emit("minecraftStopAction","sprint");}
-});
+}});
 html.gameChatInput.onfocus=function(){controlsDisabled=true;};
 html.gameChatInput.onblur=function(){controlsDisabled=false;};
